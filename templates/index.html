@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Evolução Humana</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Evolução Humana</h1>
+        
+        <!-- Formulário do jogador -->
+        <div id="form-jogador">
+            <input type="text" id="nome-jogador" placeholder="Seu nome" required>
+            <button id="iniciar-quiz">Iniciar Quiz</button>
+        </div>
+
+        <!-- Quiz (inicialmente oculto) -->
+        <div id="quiz" style="display: none;">
+            <div class="pergunta">
+                <h3>1. Qual é o nome científico do ser humano moderno?</h3>
+                <button class="opcao" data-correta="true">Homo sapiens</button>
+                <button class="opcao">Homo erectus</button>
+                <button class="opcao">Australopithecus</button>
+            </div>
+            
+            <div class="pergunta">
+                <h3>2. De qual grupo de primatas os seres humanos descendem?</h3>
+                <button class="opcao">Lemures</button>
+                <button class="opcao" data-correta="true">Grandes macacos (Hominídeos)</button>
+                <button class="opcao">Macacos do Novo Mundo</button>
+            </div>
+            
+            <div class="pergunta">
+                <h3>3. Qual foi a principal característica que diferenciou os primeiros Homo sapiens de outros hominídeos?</h3>
+                <button class="opcao">Andar bípede</button>
+                <button class="opcao">Uso de ferramentas simples</button>
+                <button class="opcao" data-correta="true">Cérebro grande e linguagem complexa</button>
+            </div>
+            
+            <button id="enviar-respostas">Enviar Respostas</button>
+        </div>
+
+        <!-- Ranking (inicialmente oculto) -->
+        <div id="ranking" style="display: none;">  <!-- Inicialmente oculto -->
+    <h2>Ranking</h2>
+    <table id="tabela-ranking">
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                <th>Pontuação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>  <!-- Dados do ranking serão inseridos aqui -->
+    </table>
+</div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
