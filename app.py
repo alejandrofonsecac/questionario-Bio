@@ -36,7 +36,7 @@ def get_ranking():
     conn.close()
     return jsonify([dict(row) for row in ranking])
 
-# Cria o banco de dados se não existir
+
 def init_db():
     conn = sqlite3.connect('database.db')
     conn.execute('''
