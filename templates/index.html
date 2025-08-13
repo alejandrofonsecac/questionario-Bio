@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Evolução Humana</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -43,20 +43,21 @@
         </div>
 
         <!-- Ranking (inicialmente oculto) -->
-        <div id="ranking" style="display: none;">  <!-- Inicialmente oculto -->
-    <h2>Ranking</h2>
-    <table id="tabela-ranking">
-        <thead>
-            <tr>
-                <th>Posição</th>
-                <th>Nome</th>
-                <th>Pontuação</th>
-            </tr>
-        </thead>
-        <tbody></tbody>  <!-- Dados do ranking serão inseridos aqui -->
-    </table>
-</div>
+        <div id="ranking" style="display: none;">
+            <h2>Ranking</h2>
+            <table id="tabela-ranking">
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>Pontuação</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 
-    <script src="/static/script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

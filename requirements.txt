@@ -1,0 +1,5 @@
+Flask
+psycopg[binary]
+psycopg_pool
+python-dotenv
+flask-cors
