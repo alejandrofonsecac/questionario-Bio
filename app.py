@@ -57,6 +57,24 @@ def get_ranking():
     if not conn:
         return jsonify([]), 500
 
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT nome, pontuacao
+                    FROM jogadores
+                    ORDER BY pontuacao DESC
+                    LIMIT 10
+                """)
+                rows = cur.fetchall()
+        return jsonify([{"nome": r[0], "pontuacao": r[1]} for r in rows])
+    except Exception as e:
+        print("❌ Erro ao buscar ranking:", e)
+        return jsonify([]), 500
+    finally:
+        conn.close()
+
+
 def init_db():
     conn = sqlite3.connect('database.db')
     conn.execute('''
