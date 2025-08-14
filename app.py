@@ -1,41 +1,61 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3
+from dotenv import load_dotenv
+import psycopg
+import os
 
-app = Flask(__name__)
+# Carregar variáveis do .env
+load_dotenv()
 
-# Configuração do banco de dados
-def get_db():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL não definido no .env")
 
-# Rota principal (renderiza o quiz)
+app = Flask(__name__, static_folder="static", template_folder="templates")
+
+# Função simples para abrir conexão
+def get_conn():
+    try:
+        return psycopg.connect(DATABASE_URL)
+    except Exception as e:
+        print("❌ Erro ao conectar ao banco:", e)
+        return None
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# Rota para salvar nome e pontuação
 @app.route("/salvar_jogador", methods=["POST"])
 def salvar_jogador():
-    dados = request.json
-    nome = dados["nome"]
-    pontuacao = dados["pontuacao"]
+    dados = request.get_json(force=True)
+    nome = str(dados.get("nome", "")).strip()
+    pontuacao = int(dados.get("pontuacao", 0))
 
-    conn = get_db()
-    conn.execute("INSERT INTO jogadores (nome, pontuacao) VALUES (?, ?)", (nome, pontuacao))
-    conn.commit()
-    conn.close()
+    if not nome:
+        return jsonify({"sucesso": False, "erro": "Nome obrigatório"}), 400
 
-    return jsonify({"sucesso": True})
+    conn = get_conn()
+    if not conn:
+        return jsonify({"sucesso": False, "erro": "Falha ao conectar ao banco"}), 500
 
-# Rota para pegar ranking
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "INSERT INTO jogadores (nome, pontuacao) VALUES (%s, %s)",
+                    (nome, pontuacao)
+                )
+        return jsonify({"sucesso": True})
+    except Exception as e:
+        print("❌ Erro ao salvar jogador:", e)
+        return jsonify({"sucesso": False, "erro": "Erro ao salvar"}), 500
+    finally:
+        conn.close()
+
 @app.route("/ranking")
 def get_ranking():
-    conn = get_db()
-    ranking = conn.execute("SELECT nome, pontuacao FROM jogadores ORDER BY pontuacao DESC LIMIT 10").fetchall()
-    conn.close()
-    return jsonify([dict(row) for row in ranking])
-
+    conn = get_conn()
+    if not conn:
+        return jsonify([]), 500
 
 def init_db():
     conn = sqlite3.connect('database.db')
@@ -49,6 +69,24 @@ def init_db():
     conn.commit()
     conn.close()
 
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT nome, pontuacao
+                    FROM jogadores
+                    ORDER BY pontuacao DESC, criado_em ASC
+                    LIMIT 10
+                """)
+                rows = cur.fetchall()
+        ranking = [{"nome": r[0], "pontuacao": r[1]} for r in rows]
+        return jsonify(ranking)
+    except Exception as e:
+        print("❌ Erro ao buscar ranking:", e)
+        return jsonify([]), 500
+    finally:
+        conn.close()
+
+
 if __name__ == "__main__":
-    init_db()
-    app.run(debug=True)  # Roda em http://localhost:5000
+    app.run(debug=True)
