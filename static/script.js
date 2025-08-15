@@ -32,10 +32,15 @@ document.querySelectorAll(".pergunta").forEach((perguntaEl) => {
 
 // Enviar respostas e mostrar ranking
 document.getElementById("enviar-respostas").addEventListener("click", async () => {
-    if (pontuacao === 0) {
-        alert("Responda pelo menos uma pergunta!");
-        return;
-    }
+    
+    const totalPerguntas = document.querySelectorAll(".pergunta").length;
+    const respondidas = document.querySelectorAll(".opcao:disabled").length / 3; // 3 opções por pergunta
+
+        if (respondidas < totalPerguntas) {
+            alert("Responda todas as perguntas!");
+            return;
+        }
+
 
     try {
         const response = await fetch("/salvar_jogador", {
