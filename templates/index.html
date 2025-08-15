@@ -7,57 +7,121 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Quiz Evolução Humana</h1>
-        
-        <!-- Formulário do jogador -->
-        <div id="form-jogador">
-            <input type="text" id="nome-jogador" placeholder="Seu nome" required>
-            <button id="iniciar-quiz">Iniciar Quiz</button>
+    <div class="corpo">
+        <div class="container">
+            <h1>Quiz Evolução Humana</h1>
+            
+            <!-- Formulário do jogador -->
+            <div id="form-jogador">
+                <input type="text" id="nome-jogador" placeholder="Seu nome" required>
+                <button id="iniciar-quiz">Iniciar Quiz</button>
+            </div>
+
+            <!-- Quiz (inicialmente oculto) -->
+            <div id="quiz" style="display: none;">
+                <!-- FÁCEIS -->
+                <div class="pergunta">
+                    <h3>1. Em que era geológica está o Período Quaternário?</h3>
+                    <button class="opcao">Mesozoica</button>
+                    <button class="opcao" data-correta="true">Cenozoica</button>
+                    <button class="opcao">Paleozoica</button>
+                    <button class="opcao">Arqueana</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>2. Qual é a primeira época do Quaternário?</h3>
+                    <button class="opcao">Holoceno</button>
+                    <button class="opcao" data-correta="true">Pleistoceno</button>
+                    <button class="opcao">Triássico</button>
+                    <button class="opcao">Jurássico</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>3. Qual espécie humana surgiu há cerca de 300 mil anos?</h3>
+                    <button class="opcao">Homo erectus</button>
+                    <button class="opcao">Homo habilis</button>
+                    <button class="opcao" data-correta="true">Homo sapiens</button>
+                    <button class="opcao">Homo neanderthalensis</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>4. Qual recurso natural o Homo erectus aprendeu a controlar?</h3>
+                    <button class="opcao">Água</button>
+                    <button class="opcao">Vento</button>
+                    <button class="opcao" data-correta="true">Fogo</button>
+                    <button class="opcao">Gelo</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>5. O Holoceno começou há quantos anos?</h3>
+                    <button class="opcao">1 milhão</button>
+                    <button class="opcao">500 mil</button>
+                    <button class="opcao" data-correta="true">11,7 mil</button>
+                    <button class="opcao">100 mil</button>
+                </div>
+
+                <!-- MÉDIAS -->
+                <div class="pergunta">
+                    <h3>6. Cite um animal da megafauna do Pleistoceno.</h3>
+                    <button class="opcao" data-correta="true">Mamute</button>
+                    <button class="opcao">Rinoceronte branco</button>
+                    <button class="opcao">Cavalo selvagem</button>
+                    <button class="opcao">Lobo cinzento</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>7. O que permitiu o surgimento das primeiras civilizações no Holoceno?</h3>
+                    <button class="opcao">Navegação marítima</button>
+                    <button class="opcao" data-correta="true">Agricultura</button>
+                    <button class="opcao">Escrita</button>
+                    <button class="opcao">Descoberta do bronze</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>8. O que caracteriza o Antropoceno?</h3>
+                    <button class="opcao">Mudanças climáticas naturais</button>
+                    <button class="opcao" data-correta="true">Impacto humano no planeta</button>
+                    <button class="opcao">Extinção dos dinossauros</button>
+                    <button class="opcao">Formação dos continentes</button>
+                </div>
+
+                <!-- DIFÍCEIS -->
+                <div class="pergunta">
+                    <h3>9. Como as glaciações influenciaram o deslocamento humano no Pleistoceno?</h3>
+                    <button class="opcao" data-correta="true">Criaram pontes de gelo entre continentes</button>
+                    <button class="opcao">Aumentaram as florestas tropicais</button>
+                    <button class="opcao">Reduziram o nível do mar para sempre</button>
+                    <button class="opcao">Forçaram a migração para os polos</button>
+                </div>
+
+                <div class="pergunta">
+                    <h3>10. Qual a relação entre a extinção da megafauna e a chegada do Homo sapiens a novos territórios?</h3>
+                    <button class="opcao">Não houve relação</button>
+                    <button class="opcao">O clima ficou mais frio</button>
+                    <button class="opcao" data-correta="true">Caça excessiva contribuiu para a extinção</button>
+                    <button class="opcao">Eles trouxeram novas doenças</button>
+                </div>
+
+                <button id="enviar-respostas">Enviar Respostas</button>
+            </div>
+
+            <!-- Ranking (inicialmente oculto) -->
+            <div id="ranking" style="display: none;">
+                <h2>Ranking</h2>
+                <table id="tabela-ranking">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Nome</th>
+                            <th>Pontuação</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Quiz (inicialmente oculto) -->
-        <div id="quiz" style="display: none;">
-            <div class="pergunta">
-                <h3>1. Qual é o nome científico do ser humano moderno?</h3>
-                <button class="opcao" data-correta="true">Homo sapiens</button>
-                <button class="opcao">Homo erectus</button>
-                <button class="opcao">Australopithecus</button>
-            </div>
-            
-            <div class="pergunta">
-                <h3>2. De qual grupo de primatas os seres humanos descendem?</h3>
-                <button class="opcao">Lemures</button>
-                <button class="opcao" data-correta="true">Grandes macacos (Hominídeos)</button>
-                <button class="opcao">Macacos do Novo Mundo</button>
-            </div>
-            
-            <div class="pergunta">
-                <h3>3. Qual foi a principal característica que diferenciou os primeiros Homo sapiens de outros hominídeos?</h3>
-                <button class="opcao">Andar bípede</button>
-                <button class="opcao">Uso de ferramentas simples</button>
-                <button class="opcao" data-correta="true">Cérebro grande e linguagem complexa</button>
-            </div>
-            
-            <button id="enviar-respostas">Enviar Respostas</button>
-        </div>
-
-        <!-- Ranking (inicialmente oculto) -->
-        <div id="ranking" style="display: none;">
-            <h2>Ranking</h2>
-            <table id="tabela-ranking">
-                <thead>
-                    <tr>
-                        <th>Posição</th>
-                        <th>Nome</th>
-                        <th>Pontuação</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

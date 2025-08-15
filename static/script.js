@@ -10,6 +10,7 @@ document.getElementById("iniciar-quiz").addEventListener("click", () => {
     }
     document.getElementById("form-jogador").style.display = "none";
     document.getElementById("quiz").style.display = "block";
+    document.getElementById
 });
 
 // Controle de respostas
@@ -70,7 +71,7 @@ async function atualizarRanking() {
             <tr>
                 <td>${index + 1}</td>
                 <td>${jogador.nome}</td>
-                <td>${jogador.pontuacao}/3</td>
+                <td>${jogador.pontuacao}/10</td>
             </tr>
         `).join("");
     } catch (error) {
