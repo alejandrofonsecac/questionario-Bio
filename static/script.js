@@ -1,5 +1,3 @@
-import timer from "./timer.js";
-
 let nomeJogador = "";
 let pontuacao = 0;
 
