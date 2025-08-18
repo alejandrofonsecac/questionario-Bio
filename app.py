@@ -1,28 +1,29 @@
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
-import psycopg
 import os
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 # Carregar variáveis do .env
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL não definido no .env")
+# Caminho para o JSON da chave de serviço
+FIREBASE_CRED = os.getenv("FIREBASE_CRED")
+if not FIREBASE_CRED or not os.path.exists(FIREBASE_CRED):
+    raise RuntimeError("❌ Defina FIREBASE_CRED no .env apontando para o JSON da chave privada")
+
+# Inicializar Firebase
+cred = credentials.Certificate(FIREBASE_CRED)
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
-# Função simples para abrir conexão
-def get_conn():
-    try:
-        return psycopg.connect(DATABASE_URL)
-    except Exception as e:
-        print("❌ Erro ao conectar ao banco:", e)
-        return None
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 @app.route("/salvar_jogador", methods=["POST"])
 def salvar_jogador():
@@ -33,77 +34,37 @@ def salvar_jogador():
     if not nome:
         return jsonify({"sucesso": False, "erro": "Nome obrigatório"}), 400
 
-    conn = get_conn()
-    if not conn:
-        return jsonify({"sucesso": False, "erro": "Falha ao conectar ao banco"}), 500
-
     try:
-        with conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    "INSERT INTO jogadores (nome, pontuacao) VALUES (%s, %s)",
-                    (nome, pontuacao)
-                )
+        db.collection("jogadores").add({
+            "nome": nome,
+            "pontuacao": pontuacao
+        })
         return jsonify({"sucesso": True})
     except Exception as e:
         print("❌ Erro ao salvar jogador:", e)
         return jsonify({"sucesso": False, "erro": "Erro ao salvar"}), 500
-    finally:
-        conn.close()
+
 
 @app.route("/ranking")
 def get_ranking():
-    conn = get_conn()
-    if not conn:
-        return jsonify([]), 500
-
     try:
-        with conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                    SELECT nome, pontuacao
-                    FROM jogadores
-                    ORDER BY pontuacao DESC
-                    LIMIT 10
-                """)
-                rows = cur.fetchall()
-        return jsonify([{"nome": r[0], "pontuacao": r[1]} for r in rows])
-    except Exception as e:
-        print("❌ Erro ao buscar ranking:", e)
-        return jsonify([]), 500
-    finally:
-        conn.close()
-
-
-def init_db():
-    conn = sqlite3.connect('database.db')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS jogadores (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            pontuacao INTEGER NOT NULL
+        jogadores_ref = (
+            db.collection("jogadores")
+              .order_by("pontuacao", direction=firestore.Query.DESCENDING)
+              .limit(10)
         )
-    ''')
-    conn.commit()
-    conn.close()
+        docs = jogadores_ref.stream()
 
-    try:
-        with conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                    SELECT nome, pontuacao
-                    FROM jogadores
-                    ORDER BY pontuacao DESC, criado_em ASC
-                    LIMIT 10
-                """)
-                rows = cur.fetchall()
-        ranking = [{"nome": r[0], "pontuacao": r[1]} for r in rows]
+        ranking = [
+            {"nome": doc.to_dict().get("nome"),
+             "pontuacao": doc.to_dict().get("pontuacao")}
+            for doc in docs
+        ]
+
         return jsonify(ranking)
     except Exception as e:
         print("❌ Erro ao buscar ranking:", e)
         return jsonify([]), 500
-    finally:
-        conn.close()
 
 
 if __name__ == "__main__":
