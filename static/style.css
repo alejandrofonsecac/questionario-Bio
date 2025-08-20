@@ -1,174 +1,168 @@
 @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
 
-/* 1) Reset básico e viewport cheio */
-html, body {
-    height: 100%;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
+        :root{
+            --background-color: rgba(233, 255, 227, 0.9);
+            --text-color: rgb(0, 151, 0);
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-}
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
 
-/* 2) Fundo ocupando a tela toda (caminho correto da imagem) */
-.corpo {
-    position: relative; /* necessário para o pseudo-elemento posicionar */
-    min-height: 100vh;
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    overflow: hidden; /* garante que o fundo não vaze */
-}
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
 
-/* Camada de imagem de fundo desfocada */
-.corpo::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('imagens/cenozoica.png') no-repeat center center fixed;
-    background-size: cover;
-    filter: blur(6px);
-    transform: scale(1.05); /* evita bordas visíveis do blur */
-    z-index: -1; /* mantém atrás do conteúdo */
-}
+        .corpo {
+            position: relative; 
+            min-height: 100vh;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .corpo::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('imagens/cenozoica.png') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(6px);
+            transform: scale(1.05);
+            z-index: -1; 
+        }
 
+        .container {
+            display: flex;
+            flex-direction: column;     
+            gap: 16px;                 
+            align-items: stretch;
+            flex-wrap: nowrap;           
+            justify-content: flex-start;
 
-/* 3) Container flex, responsivo e sem altura fixa */
-.container {
-    display: flex;
-    flex-direction: column;       /* mantém os blocos em coluna */
-    gap: 16px;                    /* espaçamento entre elementos */
-    align-items: stretch;
-    flex-wrap: nowrap;            /* evita quebra desnecessária */
-    justify-content: flex-start;
+            background: var(--background-color);
+            width: min(100%, 900px);    
+            min-height: 60vh;           
+            margin: 40px auto;            
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
 
-    background: rgba(233, 255, 227, 0.9);
-    width: min(100%, 900px);      /* limita a largura máxima */
-    min-height: 60vh;             /* dá respiro sem travar */
-    margin: 40px auto;            /* centraliza horizontal + espaço vertical */
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-}
+        h1 {
+            text-align: center;
+            font-family: 'Rock Salt', cursive;
+            font-size: clamp(28px, 6vw, 52px);
+            color: var(--text-color);
+            margin: 0 0 12px 0;
+        }
 
-/* Título com a fonte pré-histórica */
-h1 {
-    text-align: center;
-    font-family: 'Rock Salt', cursive;
-    font-size: clamp(28px, 6vw, 52px);
-    color: green;
-    margin: 0 0 12px 0;
-}
+        #form-jogador {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
 
-/* Form jogador: distribui melhor */
-#form-jogador {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-}
+        .container > #form-jogador > input {
+            padding: 10px;
+            width: min(420px, 100%);
+            border: 1px solid #ccc;
+            border-radius: 6px; 
+            background: rgba(233, 255, 227, 1);
+        }
 
-.container > #form-jogador > input {
-    padding: 10px;
-    width: min(420px, 100%);
-    border: 1px solid #ccc;
-    border-radius: 6px; 
-    background: rgba(233, 255, 227, 1);
-}
+        .container > #form-jogador > input::placeholder {
+            text-align: center;
+        }
 
-.container > #form-jogador > input::placeholder {
-    text-align: center;
-}
+        .container > #form-jogador > button {
+            padding: 10px 16px;
+        }
 
-.container > #form-jogador > button {
-    padding: 10px 16px;
-}
+        .pergunta {
+            margin: 12px 0 20px;
+        }
 
-/* Perguntas e botões */
-.pergunta {
-    margin: 12px 0 20px;
-}
+        .opcao {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            background: #e9e9e9;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: rgb(0, 151, 0);
+            font-size: 15px;
+        }
 
-.opcao {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    background: #e9e9e9;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    color: rgb(0, 151, 0);
-    font-size: 15px;
-}
+        .opcao:hover {
+            background: #ddd;
+        }
 
-.opcao:hover {
-    background: #ddd;
-}
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-button {
-    padding: 10px 15px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        button:hover {
+            background: #0056b3;
+        }
 
-button:hover {
-    background: #0056b3;
-}
+        #ranking {
+            margin-top: 20px;
+        }
 
-#ranking {
-    margin-top: 20px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
+        #Timer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--background-color);
+            width: 200px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0px 0px 10px 0px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
 
-/* 4) Opcional: centralizar tudo na tela quando tiver pouco conteúdo */
-@media (min-height: 600px) {
-    .corpo {
-        display: flex;
-        align-items: center;   /* centraliza vertical */
-        justify-content: center; /* centraliza horizontal */
-    }
-}
-
-#Timer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: green;
-    width: 200px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.timerText {
-    color: white;
-    padding: 10px;
-    font-family: 'Rock Salt', cursive;
-    font-size: 1.7em;
-    font-weight: bold;
-}
+        .timerText {
+            color: var(--text-color);
+            font-family: 'Rock Salt', cursive;
+            font-size: 1.7em;
+            font-weight: bold; 
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
