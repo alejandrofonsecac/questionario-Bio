@@ -3,6 +3,7 @@
         :root{
             --background-color: rgba(233, 255, 227, 0.9);
             --text-color: rgb(0, 151, 0);
+            --font: 'Rock Salt', cursive;
         }
 
         html, body {
@@ -59,7 +60,7 @@
 
         h1 {
             text-align: center;
-            font-family: 'Rock Salt', cursive;
+            font-family: var(--font), cursive;
             font-size: clamp(28px, 6vw, 52px);
             color: var(--text-color);
             margin: 0 0 12px 0;
@@ -158,7 +159,7 @@
 
         .timerText {
             color: var(--text-color);
-            font-family: 'Rock Salt', cursive;
+            font-family: var(--font), cursive;
             font-size: 1.7em;
             font-weight: bold; 
             margin: 0 auto;
