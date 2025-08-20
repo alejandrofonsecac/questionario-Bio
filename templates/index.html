@@ -8,21 +8,19 @@
 </head>
 <body>
     <div class="corpo">
+            <div id="Timer">
+                <p class="timerText">Olá</p>
+            </div>
         <div class="container">
             <h1>Quiz Evolução Humana</h1>
             
             <!-- Formulário do jogador -->
             <div id="form-jogador">
                 <input type="text" id="nome-jogador" placeholder="Seu nome" required>
-                <button id="iniciar-quiz">Iniciar Quiz</button>
+                <button id="iniciar-quiz" onclick="Timer()">Iniciar Quiz</button>
             </div>
 
             <!-- Quiz (inicialmente oculto) -->
-            <div id="Timer" >
-                300s
-            </div>
-
-
             <div id="quiz" style="display: none;">
                 <!-- FÁCEIS -->
                 <div class="pergunta">
@@ -127,6 +125,7 @@
         </div>
 
         <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script src=../static/Timer.js></script>
     </div>
 </body>
 </html>

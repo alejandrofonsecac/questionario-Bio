@@ -153,3 +153,22 @@ th, td {
     }
 }
 
+#Timer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: green;
+    width: 200px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timerText {
+    color: white;
+    padding: 10px;
+    font-family: 'Rock Salt', cursive;
+    font-size: 1.7em;
+    font-weight: bold;
+}
