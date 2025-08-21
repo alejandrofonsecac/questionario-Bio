@@ -1,4 +1,8 @@
-function Timer(){
+function Oneclick(){
+    const element = document.getElementById("Timer");
+    element.addEventListener("click", Timer(), {once: true});
+
+    function Timer(){
     const timerElement = document.getElementById("Timer");
     timerElement.style.display = "block";
 
@@ -20,3 +24,6 @@ function Timer(){
 
     
 }
+}
+
+
