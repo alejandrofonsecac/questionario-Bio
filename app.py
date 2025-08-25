@@ -10,7 +10,7 @@ load_dotenv()
 # Caminho para o JSON da chave de serviço
 FIREBASE_CRED = os.getenv("FIREBASE_CRED")
 if not FIREBASE_CRED or not os.path.exists(FIREBASE_CRED):
-    raise RuntimeError("❌ Defina FIREBASE_CRED no .env apontando para o JSON da chave privada")
+    raise RuntimeError(" Defina FIREBASE_CRED no .env apontando para o JSON da chave privada")
 
 # Inicializar Firebase
 cred = credentials.Certificate(FIREBASE_CRED)
@@ -41,7 +41,7 @@ def salvar_jogador():
         })
         return jsonify({"sucesso": True})
     except Exception as e:
-        print("❌ Erro ao salvar jogador:", e)
+        print(" Erro ao salvar jogador:", e)
         return jsonify({"sucesso": False, "erro": "Erro ao salvar"}), 500
 
 
