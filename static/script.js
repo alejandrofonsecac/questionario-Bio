@@ -1,6 +1,32 @@
 let nomeJogador = "";
 let pontuacao = 0;
 
+
+let perguntas = [
+    {<div class="pergunta">
+        <h3>1. Em que era geológica está o Período Quaternário?</h3>
+        <button class="opcao">Mesozoica</button>
+        <button class="opcao" data-correta="true">Cenozoica</button>
+        <button class="opcao">Paleozoica</button>
+        <button class="opcao">Arqueana</button>
+        </div>
+    },
+    {2},
+    {3},
+    {4},
+    {5},
+    {6},
+    {7},
+    {8},
+    {9},
+    {10},
+    {11},
+    {12},
+    {13},
+    {14},
+    {15},
+]
+
 // Iniciar quiz
 document.getElementById("iniciar-quiz").addEventListener("click", () => {
     nomeJogador = document.getElementById("nome-jogador").value.trim();
@@ -83,3 +109,5 @@ async function atualizarRanking() {
         console.error("Erro ao carregar ranking:", error);
     }
 }
+
+
